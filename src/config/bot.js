@@ -2,7 +2,7 @@ import { logger } from '../utils/logger.js';
 
 export const botConfig = {
   // =========================
-  // BOT PRESENCE
+  // BOT PRESENCE (what users see under the bot name)
   // =========================
   presence: {
     status: "online",
@@ -26,23 +26,257 @@ export const botConfig = {
   },
 
   // =========================
+  // APPLICATIONS SYSTEM
+  // =========================
+  applications: {
+    defaultQuestions: [
+      { question: "What is your name?", required: true },
+      { question: "How old are you?", required: true },
+      { question: "Why do you want to join?", required: true },
+    ],
+    statusColors: {
+      pending: "#FFA500",
+      approved: "#00FF00",
+      denied: "#FF0000",
+    },
+    applicationCooldown: 24,
+    deleteDeniedAfter: 7,
+    deleteApprovedAfter: 30,
+    managerRoles: [],
+  },
+
+  // =========================
   // EMBED COLORS & BRANDING
   // =========================
   embeds: {
     colors: {
-      primary:   "#336699",
-      success:   "#57F287",
-      error:     "#ED4245",
-      warning:   "#FEE75C",
-      blurple:   "#5865F2",
-      green:     "#57F287",
-      red:       "#ED4245",
-      gray:      "#99AAB5",
+      primary: "#336699",
+      secondary: "#2F3136",
+      success: "#57F287",
+      error: "#ED4245",
+      warning: "#FEE75C",
+      info: "#3498DB",
+      light: "#FFFFFF",
+      dark: "#202225",
+      gray: "#99AAB5",
+      blurple: "#5865F2",
+      green: "#57F287",
+      yellow: "#FEE75C",
+      fuchsia: "#EB459E",
+      red: "#ED4245",
+      black: "#000000",
+      giveaway: {
+        active: "#57F287",
+        ended: "#ED4245",
+      },
+      ticket: {
+        open: "#57F287",
+        claimed: "#FAA61A",
+        closed: "#ED4245",
+        pending: "#99AAB5",
+      },
+      economy: "#F1C40F",
+      birthday: "#E91E63",
+      moderation: "#9B59B6",
+      priority: {
+        none: "#95A5A6",
+        low: "#3498db",
+        medium: "#2ecc71",
+        high: "#f1c40f",
+        urgent: "#e74c3c",
+      },
     },
     footer: {
-      text: "DevBuild",
+      text: "Titan Bot",
       icon: null,
     },
+    thumbnail: null,
+    author: {
+      name: null,
+      icon: null,
+      url: null,
+    },
+  },
+
+  // =========================
+  // ECONOMY SETTINGS
+  // =========================
+  economy: {
+    currency: {
+      name: "coins",
+      namePlural: "coins",
+      symbol: "$",
+    },
+    startingBalance: 0,
+    baseBankCapacity: 100000,
+    dailyAmount: 100,
+    workMin: 10,
+    workMax: 100,
+    begMin: 5,
+    begMax: 50,
+    robSuccessRate: 0.4,
+    robFailJailTime: 3600000,
+  },
+
+  // =========================
+  // SHOP SETTINGS
+  // =========================
+  shop: {},
+
+  // =========================
+  // TICKET SYSTEM
+  // =========================
+  tickets: {
+    defaultCategory: null,
+    supportRoles: [],
+    priorities: {
+      none:   { emoji: "⚪", color: "#95A5A6", label: "None" },
+      low:    { emoji: "🟢", color: "#2ECC71", label: "Low" },
+      medium: { emoji: "🟡", color: "#F1C40F", label: "Medium" },
+      high:   { emoji: "🔴", color: "#E74C3C", label: "High" },
+      urgent: { emoji: "🚨", color: "#E91E63", label: "Urgent" },
+    },
+    defaultPriority: "none",
+    archiveCategory: null,
+    logChannel: null,
+  },
+
+  // =========================
+  // GIVEAWAY SETTINGS
+  // =========================
+  giveaways: {
+    defaultDuration: 86400000,
+    minimumWinners: 1,
+    maximumWinners: 10,
+    minimumDuration: 300000,
+    maximumDuration: 2592000000,
+    allowedRoles: [],
+    bypassRoles: [],
+  },
+
+  // =========================
+  // BIRTHDAY SETTINGS
+  // =========================
+  birthday: {
+    defaultRole: null,
+    announcementChannel: null,
+    timezone: "UTC",
+  },
+
+  // =========================
+  // VERIFICATION SETTINGS
+  // =========================
+  verification: {
+    defaultMessage: "Click the button below to verify yourself and gain access to the server!",
+    defaultButtonText: "Verify",
+    autoVerify: {
+      defaultCriteria: "none",
+      defaultAccountAgeDays: 7,
+      serverSizeThreshold: 1000,
+      minAccountAge: 1,
+      maxAccountAge: 365,
+      sendDMNotification: true,
+      criteria: {
+        account_age: "Account must be older than specified days",
+        server_size: "All users if server has less than 1000 members",
+        none: "All users immediately",
+      },
+    },
+    verificationCooldown: 5000,
+    maxVerificationAttempts: 3,
+    attemptWindow: 60000,
+    maxCooldownEntries: 10000,
+    maxAttemptEntries: 10000,
+    cooldownCleanupInterval: 300000,
+    maxAuditMetadataBytes: 4096,
+    maxInMemoryAuditEntries: 1000,
+    logAllVerifications: true,
+    keepAuditTrail: true,
+  },
+
+  // =========================
+  // WELCOME / GOODBYE MESSAGES
+  // =========================
+  welcome: {
+    defaultWelcomeMessage: "Welcome {user} to {server}! We now have {memberCount} members!",
+    defaultGoodbyeMessage: "{user} has left the server. We now have {memberCount} members.",
+    defaultWelcomeChannel: null,
+    defaultGoodbyeChannel: null,
+  },
+
+  // =========================
+  // COUNTER CHANNELS
+  // =========================
+  counters: {
+    defaults: {
+      name: "{name} Counter",
+      description: "Server {name} counter",
+      type: "voice",
+      channelName: "{name}-{count}",
+    },
+    permissions: {
+      deny: ["VIEW_CHANNEL"],
+      allow: ["VIEW_CHANNEL", "CONNECT", "SPEAK"],
+    },
+    messages: {
+      created: "✅ Created counter **{name}**",
+      deleted: "🗑️ Deleted counter **{name}**",
+      updated: "🔄 Updated counter **{name}**",
+    },
+    types: {
+      members: {
+        name: "👥 Members",
+        description: "Total members in the server",
+        getCount: (guild) => guild.memberCount.toString(),
+      },
+      bots: {
+        name: "🤖 Bots",
+        description: "Total bot accounts in the server",
+        getCount: (guild) => guild.members.cache.filter((m) => m.user.bot).size.toString(),
+      },
+      members_only: {
+        name: "👤 Humans",
+        description: "Total human members (non-bots)",
+        getCount: (guild) => guild.members.cache.filter((m) => !m.user.bot).size.toString(),
+      },
+    },
+  },
+
+  // =========================
+  // GENERIC BOT MESSAGES
+  // =========================
+  messages: {
+    noPermission: "You do not have permission to use this command.",
+    cooldownActive: "Please wait {time} before using this command again.",
+    errorOccurred: "An error occurred while executing this command.",
+    missingPermissions: "I am missing required permissions to perform this action.",
+    commandDisabled: "This command has been disabled.",
+    maintenanceMode: "The bot is currently in maintenance mode.",
+  },
+
+  // =========================
+  // FEATURE TOGGLES
+  // =========================
+  features: {
+    economy: true,
+    leveling: true,
+    moderation: true,
+    logging: true,
+    welcome: true,
+    tickets: true,
+    giveaways: true,
+    birthday: true,
+    counter: true,
+    verification: true,
+    reactionRoles: true,
+    joinToCreate: true,
+    voice: true,
+    search: true,
+    tools: true,
+    utility: true,
+    community: true,
+    fun: true,
+    hiring: true,
   },
 
   // =========================
@@ -50,18 +284,10 @@ export const botConfig = {
   // =========================
   hiring: {
     // Set automatically by /setup, or hard-code IDs here.
-
-    // Channel where approved "For Hire" posts appear (devs seeking work).
     forHireChannelId: null,
-
-    // Channel where approved "Hiring" posts appear (clients seeking devs).
     hiringChannelId: null,
-
-    // Discord user ID that receives submission DMs for moderation.
-    // Overridden by whoever runs /setup, or set HIRING_MOD_USER_ID in .env.
     modUserId: process.env.HIRING_MOD_USER_ID || null,
 
-    // ── Field limits ────────────────────────────────────────────────────────
     limits: {
       titleMaxLength:         100,
       descriptionMaxLength:   1000,
@@ -70,17 +296,14 @@ export const botConfig = {
       declineReasonMaxLength: 500,
     },
 
-    // ── Embed colors ────────────────────────────────────────────────────────
     colors: {
-      forHire:  "#5865F2",  // blurple  — For Hire post embeds
-      hiring:   "#57F287",  // green    — Hiring post embeds
-      pending:  "#FEE75C",  // yellow   — mod review DM
-      approved: "#57F287",  // green    — approval DM to submitter
-      declined: "#ED4245",  // red      — decline DM to submitter
+      forHire:  "#5865F2",
+      hiring:   "#57F287",
+      pending:  "#FEE75C",
+      approved: "#57F287",
+      declined: "#ED4245",
     },
 
-    // ── Panel embed text ────────────────────────────────────────────────────
-    // Text shown on the public embeds posted in each channel by /setup.
     panels: {
       forHire: {
         title: "🧑‍💻 Post Yourself as For Hire",
@@ -108,8 +331,6 @@ export const botConfig = {
       },
     },
 
-    // ── Modal labels ────────────────────────────────────────────────────────
-    // Labels inside the submission modal for each post type.
     modals: {
       forHire: {
         title:            "For Hire Application",
@@ -127,8 +348,6 @@ export const botConfig = {
       },
     },
 
-    // ── DM message templates ────────────────────────────────────────────────
-    // {type}, {title}, {channelId}, {reason} are replaced at runtime.
     messages: {
       approvedDm:
         "Your **{type}** post titled **\"{title}\"** has been approved and is now live in <#{channelId}>. 🎉",
@@ -145,11 +364,34 @@ export const botConfig = {
 export function validateConfig(config) {
   const errors = [];
 
-  if (!process.env.DISCORD_TOKEN && !process.env.TOKEN) {
-    errors.push("Bot token is required (DISCORD_TOKEN or TOKEN env variable)");
+  if (process.env.NODE_ENV !== 'production') {
+    logger.debug('Environment variables check:');
+    logger.debug('DISCORD_TOKEN exists:', !!process.env.DISCORD_TOKEN);
+    logger.debug('TOKEN exists:', !!process.env.TOKEN);
+    logger.debug('CLIENT_ID exists:', !!process.env.CLIENT_ID);
+    logger.debug('GUILD_ID exists:', !!process.env.GUILD_ID);
+    logger.debug('POSTGRES_HOST exists:', !!process.env.POSTGRES_HOST);
+    logger.debug('NODE_ENV:', process.env.NODE_ENV);
   }
+
+  if (!process.env.DISCORD_TOKEN && !process.env.TOKEN) {
+    errors.push("Bot token is required (DISCORD_TOKEN or TOKEN environment variable)");
+  }
+
   if (!process.env.CLIENT_ID) {
-    errors.push("Client ID is required (CLIENT_ID env variable)");
+    errors.push("Client ID is required (CLIENT_ID environment variable)");
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    if (!process.env.POSTGRES_HOST) {
+      errors.push("PostgreSQL host is required in production (POSTGRES_HOST environment variable)");
+    }
+    if (!process.env.POSTGRES_USER) {
+      errors.push("PostgreSQL user is required in production (POSTGRES_USER environment variable)");
+    }
+    if (!process.env.POSTGRES_PASSWORD) {
+      errors.push("PostgreSQL password is required in production (POSTGRES_PASSWORD environment variable)");
+    }
   }
 
   return errors;
@@ -180,6 +422,13 @@ export function getColor(path, fallback = "#99AAB5") {
     return parseInt(result.replace("#", ""), 16);
   }
   return result;
+}
+
+export function getRandomColor() {
+  const colors = Object.values(botConfig.embeds.colors).flatMap((color) =>
+    typeof color === "string" ? color : Object.values(color),
+  );
+  return colors[Math.floor(Math.random() * colors.length)];
 }
 
 export default botConfig;
